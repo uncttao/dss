@@ -1,7 +1,5 @@
 import Width
 
-%language ErrorReflection
-
 data CSSState : Type where
   St : (w, min, max : WidthV) -> CSSState
 
@@ -14,12 +12,6 @@ data PVPair : Type -> CSSState -> CSSState -> Type where
 
   Pure      : ty -> PVPair ty s s
   (>>=)     : PVPair a s1 s2 -> (a -> PVPair b s2 s3) -> PVPair b s1 s3
-
-%error_handler
-widthErr : Err -> Maybe (List ErrorReportPart)
-widthErr (CantSolveGoal `(LTEWidthVOrder ~w1 ~w2 ~w3) _) =
-  Just [TextPart "It must be true that ", TermPart w1, TextPart "(min-width) <= ", TermPart w2, TextPart "(width) <= ", TermPart w3, TextPart "(max-width)."]
-widthErr _ = Nothing
 
 cssSpec : PVPair () (St Undef Undef Undef) (St Undef Undef Undef)
 cssSpec = do Start
