@@ -1,5 +1,10 @@
 import Width
 
+data Selector =
+  P | Body | Div | Span | Nav | Button |
+  Id String |
+  Cl String
+
 data CSSState : Type where
   St : (w, min, max : WidthV) -> CSSState
 
@@ -12,8 +17,6 @@ data PVPair : Type -> CSSState -> CSSState -> Type where
 
   Pure      : ty -> PVPair ty s s
   (>>=)     : PVPair a s1 s2 -> (a -> PVPair b s2 s3) -> PVPair b s1 s3
-
-syntax [x] px = Px x
 
 cssSpec : PVPair () (St Undef Undef Undef) (St Undef Undef Undef)
 cssSpec = do Start

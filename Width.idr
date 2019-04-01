@@ -5,6 +5,8 @@ module Width
 public export
 data WidthV = Undef | Px Nat
 
+syntax [x] px = Px x
+
 public export
 data LTEWidthV  : (w1, w2 : WidthV) -> Type where
   NoneCaseLeft  : LTEWidthV Undef _
