@@ -3,14 +3,14 @@ module Width
 %language ErrorReflection
 
 public export
-data WidthV = Undef | Px Nat
+data WidthV = None | Px Nat
 
 syntax [x] px = Px x
 
 public export
 data LTEWidthV  : (w1, w2 : WidthV) -> Type where
-  NoneCaseLeft  : LTEWidthV Undef _
-  NoneCaseRight : LTEWidthV _ Undef
+  NoneCaseLeft  : LTEWidthV None _
+  NoneCaseRight : LTEWidthV _ None
   ValueLTE      : (LTE n m) -> LTEWidthV (Px n) (Px m)
 
 public export
@@ -20,8 +20,8 @@ data LTEWidthVOrder : (w1, w2, w3: WidthV) -> Type where
 public export
 total
 isLTEWidthV : (w1, w2 : WidthV) -> Dec (LTEWidthV w1 w2)
-isLTEWidthV Undef _ 	  = Yes NoneCaseLeft
-isLTEWidthV _ Undef       = Yes NoneCaseRight
+isLTEWidthV None _ 	  = Yes NoneCaseLeft
+isLTEWidthV _ None       = Yes NoneCaseRight
 isLTEWidthV (Px m) (Px n) = case (isLTE m n) of
   Yes mSmallerThanN => Yes (ValueLTE mSmallerThanN)
   No notMAtMostN => No (\(ValueLTE mAtMostN) => notMAtMostN mAtMostN)
