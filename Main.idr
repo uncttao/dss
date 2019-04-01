@@ -13,9 +13,11 @@ data PVPair : Type -> CSSState -> CSSState -> Type where
   Pure      : ty -> PVPair ty s s
   (>>=)     : PVPair a s1 s2 -> (a -> PVPair b s2 s3) -> PVPair b s1 s3
 
+syntax [x] px = Px x
+
 cssSpec : PVPair () (St Undef Undef Undef) (St Undef Undef Undef)
 cssSpec = do Start
-             MaxWidth (Px 40)
-             MinWidth (Px 35)
-             Width (Px 38)
+             MaxWidth (40 px)
+             MinWidth (35 px)
+             Width (35 px)
              End
