@@ -1,5 +1,21 @@
 import Width
 
+data Selector =
+  Body | Section | Par | H1 | H2 | Div | Nav | Span |
+  Cl String |
+  Id String
+
+data CascadeSelect = Nil | (::) Selector CascadeSelect
+
+cascadeSelectEx1 : CascadeSelect
+cascadeSelectEx1 = [Cl "my-beautiful-button", Body, H1, Id "inputbox2"]
+
+infixr 5 .|
+data SelectGroup = HAS_STYLE | (.|) CascadeSelect SelectGroup
+
+selectGroupEx1 : SelectGroup
+selectGroupEx1 = [Body, H2, Nav] .| [Cl "design-header", Cl "nav-menu"] .| [Par] .| [Div] .| HAS_STYLE
+
 data DeclSt : Type where
   St : (w, min, max : Width) -> DeclSt
 
